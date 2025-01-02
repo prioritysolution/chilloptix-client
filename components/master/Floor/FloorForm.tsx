@@ -59,6 +59,13 @@ const FloorForm: FC<FloorFormProps> = ({
                 label="Floor No"
                 type="number"
               />
+
+              <InputField
+                control={form.control}
+                name="capacity"
+                label="Capacity"
+                type="number"
+              />
             </ModalBody>
             <ModalFooter>
               <Button

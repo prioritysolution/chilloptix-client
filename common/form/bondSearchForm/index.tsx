@@ -12,6 +12,7 @@ import { FC } from "react";
 import { BondSearchProps } from "./BondSearchTypes";
 import BondSearchForm from "./BondSearchForm";
 import BondSearchTable from "./BondSearchTable";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const BondSearch: FC<BondSearchProps> = ({
   isBondModalOpen,
@@ -28,6 +29,7 @@ const BondSearch: FC<BondSearchProps> = ({
         backdrop="blur"
         size="4xl"
         hideCloseButton
+        scrollBehavior="inside"
       >
         <ModalContent>
           <ModalHeader className="justify-center text-2xl font-medium">
@@ -36,7 +38,7 @@ const BondSearch: FC<BondSearchProps> = ({
           <Divider />
 
           <ModalBody>
-            <div className="w-full flex flex-col gap-5 py-5 ">
+            <div className="w-full flex flex-col gap-5 py-5">
               <BondSearchForm
                 loading={loading}
                 form={form}
@@ -44,11 +46,12 @@ const BondSearch: FC<BondSearchProps> = ({
               />
 
               <Divider />
-
-              <BondSearchTable
-                handleSelectData={handleSelectData}
-                setIsBondModalOpen={setIsBondModalOpen}
-              />
+              <ScrollArea className="">
+                <BondSearchTable
+                  handleSelectData={handleSelectData}
+                  setIsBondModalOpen={setIsBondModalOpen}
+                />
+              </ScrollArea>
             </div>
           </ModalBody>
         </ModalContent>

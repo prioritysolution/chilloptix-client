@@ -54,11 +54,13 @@ const BookingSearchTable: FC<BookingSearchTableProps> = ({
     >
       <TableHeader>
         <TableColumn>Serial No.</TableColumn>
+        <TableColumn align="center">Book Date</TableColumn>
+        <TableColumn align="center">Book No</TableColumn>
         <TableColumn align="center">Name</TableColumn>
         <TableColumn align="center">Guardian Name</TableColumn>
-        <TableColumn align="center">Booking No.</TableColumn>
-        <TableColumn align="center">Booking Date</TableColumn>
-        <TableColumn align="center">Quantity</TableColumn>
+        <TableColumn align="center">Village</TableColumn>
+        <TableColumn align="center">Mobile</TableColumn>
+        <TableColumn align="center">Book Quantity</TableColumn>
       </TableHeader>
       <TableBody emptyContent={"No data found."}>
         {searchTableData &&
@@ -72,12 +74,14 @@ const BookingSearchTable: FC<BookingSearchTableProps> = ({
               }}
             >
               <TableCell>{index + 1}</TableCell>
-              <TableCell>{data?.Cust_Name}</TableCell>
-              <TableCell>{data?.Relation_Name}</TableCell>
-              <TableCell>{data?.Book_No}</TableCell>
               <TableCell>
                 {data.Bok_Date && format(data.Bok_Date, "dd-MM-yyyy")}
               </TableCell>
+              <TableCell>{data?.Book_No}</TableCell>
+              <TableCell>{data?.Cust_Name}</TableCell>
+              <TableCell>{data?.Relation_Name}</TableCell>
+              <TableCell>{data?.Village}</TableCell>
+              <TableCell>{data?.Mobile}</TableCell>
               <TableCell>{data?.Book_Qnty}</TableCell>
             </TableRow>
           ))}

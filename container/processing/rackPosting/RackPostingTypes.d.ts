@@ -1,8 +1,10 @@
 import { BondSearchTableData } from "@/common/form/bondSearchForm/BondSearchTypes";
+import { BookingSearchTableData } from "@/common/form/bookingSearchForm/BookingSearchTypes";
 import { UseFormReturn, SubmitHandler } from "react-hook-form";
 
 export interface RackPostingFormData {
-  bondNo: string;
+  bookingNo: string;
+  bondId: string;
   issueDate: string;
   name: string;
   guardianName: string;
@@ -14,6 +16,7 @@ export interface RackPostingFormData {
   chamberId: string;
   rackId: string;
   pocketId: string;
+  positionId: string;
   pack: string;
 }
 
@@ -23,29 +26,36 @@ interface RackData {
   rack: string;
   pocket: string;
   no_pack: string;
+  bond_id: string;
+  position: string;
 }
 
 export interface RackPostingBody {
   org_id: number | null;
-  bond_id: number;
   post_date: string;
   rack_details: RackData[];
 }
 
+export interface BondListData {
+  Id: number;
+  Bond_No: number;
+}
+
 export interface RackPostingProps {
   loading: boolean;
-  getBondDetailsLoading: boolean;
+  getBondListLoading: boolean;
   form: UseFormReturn<RackPostingFormData, any, undefined>;
   handleSubmit: SubmitHandler<RackPostingFormData>;
-  handleSelectBond: (data: BondSearchTableData) => void;
+  handleSelectBooking: (data: BookingSearchTableData) => void;
   showSuccessMessage: boolean;
   setShowSuccessMessage: Dispatch<SetStateAction<boolean>>;
   successMessage: string;
-  handleGetBondDataByBondNo: () => void;
+  handleGetBondListByBookingNo: () => void;
   rackPostingTableData: any[];
   handleDeleteFromTable: (id: number) => void;
   handleAddRackPosting: () => void;
-  totalPack: number;
+  totalPack: any[];
+  bondListData: BondListData[];
 }
 
 export interface RackPostingTableProps {
@@ -54,12 +64,13 @@ export interface RackPostingTableProps {
 }
 
 export interface RackPostingFormProps {
-  getBondDetailsLoading: boolean;
+  getBondListLoading: boolean;
   form: UseFormReturn<RackPostingFormData, any, undefined>;
   handleSubmit: SubmitHandler<RackPostingFormData>;
-  handleGetBondDataByBondNo: () => void;
+  handleGetBondListByBookingNo: () => void;
   rackPostingTableData: RackPostingFormData[];
   handleAddRackPosting: () => void;
-  setIsBondModalOpen: Dispatch<SetStateAction<boolean>>;
-  totalPack: number;
+  setIsBookingModalOpen: Dispatch<SetStateAction<boolean>>;
+  totalPack: any[];
+  bondListData: BondListData[];
 }

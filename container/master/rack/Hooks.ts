@@ -39,6 +39,14 @@ export const useRack = () => {
     chamberId: yup.string().required("Chamber is required"),
     rackName: yup.string().required("Rack name is required"),
     rackNo: yup.string().required("Rack no. is required"),
+    capacity: yup
+      .string()
+      .required("Capacity is required")
+      .test("is-integer", "Invalid capacity", (value) => {
+        if (!value) return false; // Required validation already handles null/empty
+        const numValue = Number(value);
+        return Number.isInteger(numValue) && numValue > 0; // Validate integer and positive
+      }),
   });
 
   // Initialize the form with react-hook-form and yup resolver
@@ -49,6 +57,7 @@ export const useRack = () => {
       chamberId: "",
       rackName: "",
       rackNo: "",
+      capacity: "",
     },
   });
 
@@ -82,6 +91,7 @@ export const useRack = () => {
       chamber_id: item.chamberId,
       rack_name: item.rackName,
       rack_no: item.rackNo,
+      capacity: item.capacity,
     };
 
     try {
@@ -114,6 +124,7 @@ export const useRack = () => {
       chamber_id: item.chamberId,
       rack_name: item.rackName,
       rack_no: item.rackNo,
+      capacity: item.capacity,
     };
     setUpdateRackLoading(true);
     try {
@@ -180,13 +191,20 @@ export const useRack = () => {
   useEffect(() => {
     if (editData && Object.keys(editData).length > 0) {
       form.reset({
-        floorId: editData.Floor_Id.toString(),
-        chamberId: editData.Chamber_Id.toString(),
-        rackName: editData.Rack_Name,
-        rackNo: editData.Rack_No,
+        floorId: editData.Floor_Id.toString() || "",
+        chamberId: editData.Chamber_Id.toString() || "",
+        rackName: editData.Rack_Name || "",
+        rackNo: editData.Rack_No || "",
+        capacity: editData.Capacity || "",
       });
     } else {
-      form.reset({ floorId: "", chamberId: "", rackName: "", rackNo: "" });
+      form.reset({
+        floorId: "",
+        chamberId: "",
+        rackName: "",
+        rackNo: "",
+        capacity: "",
+      });
     }
   }, [editData, form.reset]);
 

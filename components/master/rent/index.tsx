@@ -8,7 +8,13 @@ import { Form } from "@/components/ui/form";
 import InputField from "@/common/formFields/InputField";
 import { DatePickerField } from "@/common/formFields/DatePickerField";
 
-const Rent: FC<RentProps> = ({ loading, form, handleSubmit, startDate }) => {
+const Rent: FC<RentProps> = ({
+  loading,
+  form,
+  handleSubmit,
+  startDate,
+  fromDateDisable,
+}) => {
   return (
     <div className="w-full h-full flex justify-between p-2 lg:p-5 bg-[#fefefe] rounded-lg ">
       <div className=" h-full flex flex-col justify-start items-center border-primary rounded-lg border-[2px] p-2 lg:p-5 w-full gap-5 overflow-hidden">
@@ -61,6 +67,7 @@ const Rent: FC<RentProps> = ({ loading, form, handleSubmit, startDate }) => {
                     name="effectFrom"
                     startYear={2000}
                     endYear={2050}
+                    disabled={fromDateDisable}
                     disabledDateBefore={
                       startDate ? new Date(startDate) : undefined
                     }

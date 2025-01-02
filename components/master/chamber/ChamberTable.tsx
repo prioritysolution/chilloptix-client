@@ -54,6 +54,7 @@ const ChamberTable: FC<ChamberTableProps> = ({ handleEditData }) => {
         <TableColumn>Serial No.</TableColumn>
         <TableColumn align="center">Chamber No.</TableColumn>
         <TableColumn align="center">Chamber Name</TableColumn>
+        <TableColumn align="center">Capacity</TableColumn>
         <TableColumn align="center">Actions</TableColumn>
       </TableHeader>
       <TableBody emptyContent={"No data found."}>
@@ -62,6 +63,7 @@ const ChamberTable: FC<ChamberTableProps> = ({ handleEditData }) => {
             <TableCell>{index + 1}</TableCell>
             <TableCell>{data.Chamber_No}</TableCell>
             <TableCell>{data.Chamber_Name}</TableCell>
+            <TableCell>{data.Capacity}</TableCell>
             <TableCell align="center" className=" flex justify-center">
               <Button
                 className="flex text-center items-center gap-3"

@@ -8,7 +8,7 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import { useBookingSearch } from "./Hooks";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { BookingSearchProps } from "./BookingSearchTypes";
 import BookingSearchForm from "./BookingSearchForm";
 import BookingSearchTable from "./BookingSearchTable";
@@ -17,8 +17,13 @@ const BookingSearch: FC<BookingSearchProps> = ({
   isBookingModalOpen,
   setIsBookingModalOpen,
   handleSelectData,
+  bookType = "BOOK",
 }) => {
-  const { loading, form, handleSubmit } = useBookingSearch();
+  const { loading, form, handleSubmit, setBookType } = useBookingSearch();
+
+  useEffect(() => {
+    setBookType(bookType);
+  }, []);
 
   return (
     <div className="w-full">
@@ -41,6 +46,7 @@ const BookingSearch: FC<BookingSearchProps> = ({
                 loading={loading}
                 form={form}
                 handleSubmit={handleSubmit}
+                bookType={bookType}
               />
 
               <Divider />

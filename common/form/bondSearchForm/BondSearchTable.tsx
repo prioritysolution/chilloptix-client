@@ -1,6 +1,5 @@
 "use client";
 import {
-  Button,
   Pagination,
   Table,
   TableBody,
@@ -51,17 +50,19 @@ const BondSearchTable: FC<BondSearchTableProps> = ({
     >
       <TableHeader>
         <TableColumn>Serial No.</TableColumn>
+        <TableColumn align="center">Bond Date</TableColumn>
+        <TableColumn align="center">Bond No.</TableColumn>
         <TableColumn align="center">Name</TableColumn>
         <TableColumn align="center">Guardian Name</TableColumn>
-        <TableColumn align="center">Bond No.</TableColumn>
-        <TableColumn align="center">Bond Date</TableColumn>
-        <TableColumn align="center">Quantity</TableColumn>
+        <TableColumn align="center">Address</TableColumn>
+        <TableColumn align="center">Mobile</TableColumn>
+        <TableColumn align="center">Pack</TableColumn>
       </TableHeader>
       <TableBody emptyContent={"No data found."}>
         {searchTableData &&
           searchTableData.map((data, index) => (
             <TableRow
-              key={data.Id}
+              key={index}
               className="cursor-pointer hover:bg-default-100 transition-all duration-100"
               onClick={() => {
                 handleSelectData(data);
@@ -69,13 +70,15 @@ const BondSearchTable: FC<BondSearchTableProps> = ({
               }}
             >
               <TableCell>{index + 1}</TableCell>
-              <TableCell>{data?.Cust_Name}</TableCell>
-              <TableCell>{data?.Relation_Name}</TableCell>
-              <TableCell>{data?.Bond_No}</TableCell>
               <TableCell>
                 {data.Issue_Date && format(data.Issue_Date, "dd-MM-yyyy")}
               </TableCell>
-              <TableCell>{data?.Issue_Qnty}</TableCell>
+              <TableCell>{data?.Bond_No}</TableCell>
+              <TableCell>{data?.Cust_Name}</TableCell>
+              <TableCell>{data?.Relation_Name}</TableCell>
+              <TableCell>{data?.Address}</TableCell>
+              <TableCell>{data?.Mobile}</TableCell>
+              <TableCell>{data?.Issue_Pack}</TableCell>
             </TableRow>
           ))}
       </TableBody>

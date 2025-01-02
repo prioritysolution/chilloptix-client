@@ -33,13 +33,13 @@ const BondEntryTable: FC<BondEntryTableProps> = ({
         {bondTableData.map((data, index) => (
           <TableRow key={index}>
             <TableCell>{index + 1}</TableCell>
-            <TableCell>{data.bookingNo}</TableCell>
+            <TableCell>{data?.bookingNo}</TableCell>
             <TableCell>
               {data.date && format(data.date, "dd-MM-yyyy")}
             </TableCell>
-            <TableCell>{data.noOfPackages}</TableCell>
-            <TableCell>{data.netWeight}</TableCell>
-            <TableCell>{data.verified ? "Yes" : "No"}</TableCell>
+            <TableCell>{data?.noOfPackages}</TableCell>
+            <TableCell>{data?.netWeight}</TableCell>
+            <TableCell>{data?.verified}</TableCell>
             <TableCell align="center" className=" flex justify-center">
               <Button
                 className=" text-2xl text-danger"

@@ -9,10 +9,12 @@ import chamberSlice from "@/container/master/chamber/ChamberReducer";
 import rackSlice from "@/container/master/rack/RackReducer";
 import pocketSlice from "@/container/master/pocket/PocketReducer";
 import agentSlice from "@/container/master/agent/AgentReducer";
-import rentSlice from "@/container/master/rent/RentReducer";
 import bankAccountSlice from "@/container/master/bankAccount/BankAccountReducer";
+import licenseRenewalSlice from "@/container/master/licenseRenewal/LicenseRenewalReducer";
+import positionSlice from "@/container/master//position/PositionReducer";
 import bookingSearchSlice from "@/common/form/bookingSearchForm/BookingSearchFormReducer";
 import bondSearchSlice from "@/common/form/bondSearchForm/BondSearchFormReducer";
+import voucherSlice from "@/container/voucher/VoucherReducer";
 
 export const store = configureStore({
   reducer: {
@@ -23,10 +25,12 @@ export const store = configureStore({
     rack: rackSlice,
     pocket: pocketSlice,
     agent: agentSlice,
-    rent: rentSlice,
     bankAccount: bankAccountSlice,
+    licenseRenewal: licenseRenewalSlice,
+    position: positionSlice,
     bookingSearch: bookingSearchSlice,
     bondSearch: bondSearchSlice,
+    voucher: voucherSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

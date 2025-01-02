@@ -3,6 +3,7 @@ import { UseFormReturn, SubmitHandler } from "react-hook-form";
 export interface FloorFormData {
   floorName: string;
   floorNo: string;
+  capacity: string;
 }
 
 interface FloorBody {
@@ -10,6 +11,7 @@ interface FloorBody {
   floor_id?: number;
   floor_name: string;
   floor_no: string;
+  capacity: string;
 }
 
 export interface FloorProps {
@@ -42,4 +44,5 @@ export interface FloorTableData {
   Id: number;
   Floor_Name: string;
   Floor_No: string;
+  Capacity: string;
 }

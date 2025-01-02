@@ -54,6 +54,7 @@ const RackTable: FC<RackTableProps> = ({ handleEditData }) => {
         <TableColumn>Serial No.</TableColumn>
         <TableColumn align="center">Rack No.</TableColumn>
         <TableColumn align="center">Rack Name</TableColumn>
+        <TableColumn align="center">Capacity</TableColumn>
         <TableColumn align="center">Actions</TableColumn>
       </TableHeader>
       <TableBody emptyContent={"No data found."}>
@@ -62,6 +63,7 @@ const RackTable: FC<RackTableProps> = ({ handleEditData }) => {
             <TableCell>{index + 1}</TableCell>
             <TableCell>{data.Rack_No}</TableCell>
             <TableCell>{data.Rack_Name}</TableCell>
+            <TableCell>{data.Capacity}</TableCell>
             <TableCell align="center" className=" flex justify-center">
               <Button
                 className="flex text-center items-center gap-3"

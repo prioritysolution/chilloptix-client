@@ -7,11 +7,7 @@ import { ApiResponse } from "@/container/ApiTypes";
 import getCookieData from "@/utils/getCookieData";
 import { GeneralBookingFormData } from "./GeneralBookingTypes";
 import { decimalRegex, pinRegex } from "@/utils/validationRegex";
-import {
-  addGeneralBookingAPI,
-  getBankCustomerAPI,
-  getBookingAPI,
-} from "./GeneralBookingApis";
+import { addGeneralBookingAPI, getBankCustomerAPI } from "./GeneralBookingApis";
 import { format } from "date-fns";
 
 export const useGeneralBooking = () => {
@@ -29,8 +25,6 @@ export const useGeneralBooking = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-
-  const [bookId, setBookId] = useState<number | null>(null);
   const [bookingData, setBookingData] = useState(null);
 
   useEffect(() => {
@@ -44,12 +38,12 @@ export const useGeneralBooking = () => {
   const formSchema = yup.object({
     bookingDate: yup.date().required("Booking date is required"),
     name: yup.string().required("Name is required"),
-    guardianName: yup.string().required("Guradian Name is required"),
+    guardianName: yup.string().default(""),
     village: yup.string().required("Village is required"),
     postOffice: yup.string().required("Post office is required"),
     pinCode: yup
       .string()
-      .required("Pin Code is required")
+      .default("")
       .test("is-valid-pin", "Invalid pin code", (value) => {
         if (!value) return false; // Required validation already ensures value is not null or empty
         return pinRegex.test(value); // Check if it matches the exact 6-digit format
@@ -59,19 +53,11 @@ export const useGeneralBooking = () => {
     quantity: yup
       .string()
       .required("Quantity is required")
-      .test("is-valid-number", "Invalid quantity", (value) => {
+      .test("is-integer", "Invalid quantity", (value) => {
         if (!value) return false; // Required validation already handles null/empty
-        return decimalRegex.test(value); // Validate format with regex
-      })
-      .test(
-        "is-greater-than-zero",
-        "Quantity must be greater than 0",
-        (value) => {
-          if (!value) return false; // Required validation already handles null/empty
-          const numberValue = parseFloat(value);
-          return numberValue > 0; // Ensure the value is greater than 0
-        }
-      ),
+        const numValue = Number(value);
+        return Number.isInteger(numValue) && numValue > 0; // Validate integer and positive
+      }),
     advanceAmount: yup
       .string()
       .default("")
@@ -88,6 +74,7 @@ export const useGeneralBooking = () => {
           return numberValue >= 0; // Ensure the value is >= 0
         }
       ),
+    agentId: yup.string().default(""),
     validUpto: yup.date().required("Valid upto is required"),
     transType: yup.string().default("bank"),
     bankId: yup.string().default(""),
@@ -107,6 +94,7 @@ export const useGeneralBooking = () => {
       mobile: "",
       quantity: "",
       advanceAmount: "",
+      agentId: "",
       transType: "bank",
       bankId: "",
       refVouch: "",
@@ -156,7 +144,6 @@ export const useGeneralBooking = () => {
     setShowSuccessMessage(false);
     setSuccessMessage("");
     setIsOpen(true);
-    if (orgId && bookId) getBookingApiCall(orgId, bookId);
   };
 
   // Function to call the login API
@@ -177,7 +164,8 @@ export const useGeneralBooking = () => {
       dist: item.district,
       mob: item.mobile,
       qunty: item.quantity,
-      amount: item.advanceAmount,
+      amount: item.advanceAmount || "0",
+      agent_id: item.agentId,
       valid_till: format(item.validUpto, "yyyy-MM-dd"),
       fin_id: finId,
       cust_id: custId,
@@ -192,19 +180,19 @@ export const useGeneralBooking = () => {
         form.reset();
         setSuccessMessage(res.data.message);
         setShowSuccessMessage(true);
-        setBookId(res.data.details);
+        setBookingData(res.data.details[0]);
         toast.success(res.data.message);
       } else {
         toast.error(res.data.message);
         setSuccessMessage("");
         setShowSuccessMessage(false);
-        setBookId(null);
+        setBookingData(null);
       }
     } catch (err) {
       toast.error("Something went wrong");
       setSuccessMessage("");
       setShowSuccessMessage(false);
-      setBookId(null);
+      setBookingData(null);
     } finally {
       setLoading(false);
     }
@@ -225,26 +213,6 @@ export const useGeneralBooking = () => {
     } catch (err) {
       toast.error("Something went wrong");
       setCustomerData([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getBookingApiCall = async (orgId: number, bookId: number) => {
-    setLoading(true);
-
-    try {
-      const res: ApiResponse = await getBookingAPI(orgId, bookId);
-
-      if (res.status === 200) {
-        setBookingData(res.data.details[0]);
-      } else {
-        toast.error(res.data.message);
-        setBookingData(null);
-      }
-    } catch (err) {
-      toast.error("Something went wrong");
-      setBookingData(null);
     } finally {
       setLoading(false);
     }

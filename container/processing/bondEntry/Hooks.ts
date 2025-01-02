@@ -32,8 +32,6 @@ export const useBondEntry = () => {
 
   const [bondPdfData, setBondPdfData] = useState<any[]>([]);
 
-  const [totalNetWeight, setTotalNetWeight] = useState<number>(0);
-
   useEffect(() => {
     if (typeof window !== undefined) {
       setOrgId(getCookieData<number | null>("chilloptixClientOrgId"));
@@ -73,30 +71,8 @@ export const useBondEntry = () => {
           const numValue = parseFloat(value);
           return numValue > 0; // Ensure the number is greater than 0 if provided
         }
-      )
-      .test(
-        "does-not-exceed-booking-quantity",
-        "Total net weight must not exceed booking quantity",
-        function (value) {
-          if (!value) return true; // Skip validation if no value
-
-          const netWeight = parseFloat(value);
-          const bookingQuantity = this.parent.bookingQuantity
-            ? parseFloat(this.parent.bookingQuantity)
-            : 0;
-
-          if (
-            isNaN(netWeight) ||
-            isNaN(totalNetWeight) ||
-            isNaN(bookingQuantity)
-          ) {
-            return false; // Invalid if any of the values are not numbers
-          }
-
-          return netWeight + totalNetWeight <= bookingQuantity;
-        }
       ),
-    verified: yup.boolean().default(false),
+    verified: yup.string().default(""),
   });
 
   // Initialize the form with react-hook-form and yup resolver
@@ -111,7 +87,7 @@ export const useBondEntry = () => {
       bookingQuantity: "",
       noOfPackages: "",
       netWeight: "",
-      verified: false,
+      verified: "",
     },
   });
 
@@ -123,7 +99,7 @@ export const useBondEntry = () => {
       ...values, // Retain existing values for all fields
       noOfPackages: "", // Reset noOfPackages
       netWeight: "", // Reset netWeight
-      verified: false,
+      verified: "",
     });
   };
 
@@ -162,7 +138,7 @@ export const useBondEntry = () => {
     let bondData = bondTableData.map((data) => ({
       bond_qnty: data.netWeight,
       bond_pack: data.noOfPackages,
-      verified: data.verified ? "1" : "0",
+      verified: data.verified,
     }));
 
     const data = {
@@ -186,7 +162,7 @@ export const useBondEntry = () => {
           bookingQuantity: "",
           noOfPackages: "",
           netWeight: "",
-          verified: false,
+          verified: "",
         });
         setSuccessMessage(res.data.message);
         setShowSuccessMessage(true);
@@ -257,17 +233,6 @@ export const useBondEntry = () => {
       setGetBookingDetailsLoading(false);
     }
   };
-
-  useEffect(() => {
-    const newTotalNetWeight = bondTableData
-      ? bondTableData.reduce((total, item) => {
-          const weight = parseFloat(item.netWeight); // Convert string to number
-          return total + (isNaN(weight) ? 0 : weight); // Add to total, skip if NaN
-        }, 0)
-      : 0;
-
-    setTotalNetWeight(newTotalNetWeight);
-  }, [bondTableData]);
 
   return {
     loading,

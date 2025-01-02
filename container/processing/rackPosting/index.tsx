@@ -8,6 +8,7 @@ import { useChamber } from "@/container/master/chamber/Hooks";
 import { useEffect } from "react";
 import { useRack } from "@/container/master/rack/Hooks";
 import { usePocket } from "@/container/master/pocket/Hooks";
+import { usePosition } from "@/container/master/position/Hooks";
 
 const RackPostingContainer = () => {
   const token = getCookieData<string | null>("chilloptixClientToken");
@@ -15,14 +16,14 @@ const RackPostingContainer = () => {
 
   const {
     loading,
-    getBondDetailsLoading,
+    getBondListLoading,
     form,
     handleSubmit,
-    handleSelectBond,
+    handleSelectBooking,
     showSuccessMessage,
     setShowSuccessMessage,
     successMessage,
-    handleGetBondDataByBondNo,
+    handleGetBondListByBookingNo,
     rackPostingTableData,
     handleDeleteFromTable,
     handleAddRackPosting,
@@ -30,6 +31,7 @@ const RackPostingContainer = () => {
     chamberId,
     rackId,
     totalPack,
+    bondListData,
   } = useRackPosting();
 
   const { getFloorApiCall } = useFloor();
@@ -40,9 +42,12 @@ const RackPostingContainer = () => {
 
   const { getPocketUnderRackApiCall } = usePocket();
 
+  const { getPositionApiCall } = usePosition();
+
   useEffect(() => {
     if (token && orgId) {
       getFloorApiCall(orgId);
+      getPositionApiCall(orgId);
     }
   }, [token, orgId]);
 
@@ -70,18 +75,19 @@ const RackPostingContainer = () => {
   return (
     <RackPosting
       loading={loading}
-      getBondDetailsLoading={getBondDetailsLoading}
+      getBondListLoading={getBondListLoading}
       form={form}
       handleSubmit={handleSubmit}
-      handleSelectBond={handleSelectBond}
+      handleSelectBooking={handleSelectBooking}
       showSuccessMessage={showSuccessMessage}
       setShowSuccessMessage={setShowSuccessMessage}
       successMessage={successMessage}
-      handleGetBondDataByBondNo={handleGetBondDataByBondNo}
+      handleGetBondListByBookingNo={handleGetBondListByBookingNo}
       rackPostingTableData={rackPostingTableData}
       handleDeleteFromTable={handleDeleteFromTable}
       handleAddRackPosting={handleAddRackPosting}
       totalPack={totalPack}
+      bondListData={bondListData}
     />
   );
 };

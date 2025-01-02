@@ -24,4 +24,5 @@ export interface RentProps {
   form: UseFormReturn<RentFormData, any, undefined>;
   handleSubmit: SubmitHandler<RentFormData>;
   startDate: string | null;
+  fromDateDisable: boolean;
 }

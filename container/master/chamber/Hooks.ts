@@ -38,6 +38,14 @@ export const useChamber = () => {
     floorId: yup.string().required("Floor is required"),
     chamberName: yup.string().required("Chamber name is required"),
     chamberNo: yup.string().required("Chamber no. is required"),
+    capacity: yup
+      .string()
+      .required("Capacity is required")
+      .test("is-integer", "Invalid capacity", (value) => {
+        if (!value) return false; // Required validation already handles null/empty
+        const numValue = Number(value);
+        return Number.isInteger(numValue) && numValue > 0; // Validate integer and positive
+      }),
   });
 
   // Initialize the form with react-hook-form and yup resolver
@@ -47,6 +55,7 @@ export const useChamber = () => {
       floorId: "",
       chamberName: "",
       chamberNo: "",
+      capacity: "",
     },
   });
 
@@ -77,6 +86,7 @@ export const useChamber = () => {
       floor_id: item.floorId,
       chamber_name: item.chamberName,
       chamber_no: item.chamberNo,
+      capacity: item.capacity,
     };
 
     try {
@@ -108,6 +118,7 @@ export const useChamber = () => {
       floor_id: item.floorId,
       chamber_name: item.chamberName,
       chamber_no: item.chamberNo,
+      capacity: item.capacity,
     };
     setUpdateChamberLoading(true);
     try {
@@ -174,11 +185,12 @@ export const useChamber = () => {
     if (editData && Object.keys(editData).length > 0) {
       form.reset({
         floorId: editData.Floor_Id.toString(),
-        chamberName: editData.Chamber_Name,
-        chamberNo: editData.Chamber_No,
+        chamberName: editData.Chamber_Name || "",
+        chamberNo: editData.Chamber_No || "",
+        capacity: editData.Capacity || "",
       });
     } else {
-      form.reset({ floorId: "", chamberName: "", chamberNo: "" });
+      form.reset({ floorId: "", chamberName: "", chamberNo: "", capacity: "" });
     }
   }, [editData, form.reset]);
 

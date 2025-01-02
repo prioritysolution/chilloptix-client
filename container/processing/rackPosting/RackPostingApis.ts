@@ -17,12 +17,26 @@ export const addRackPostingAPI = async (
   return res;
 };
 
-export const getBondDataByBondNoAPI = async (
+export const getRackBondListByBookingNoAPI = async (
+  orgId: number,
+  bookingNo: string
+): Promise<ApiResponse> => {
+  let data = {
+    url: endPoints.getRackBondListByBookingNo(orgId, bookingNo),
+  };
+
+  // Call the API
+  const res = await doGetApiCall(data);
+
+  return res;
+};
+
+export const getRackDetailsByBondNoAPI = async (
   orgId: number,
   bondNo: string
 ): Promise<ApiResponse> => {
   let data = {
-    url: endPoints.getBondDataByBondNo(orgId, bondNo),
+    url: endPoints.getRackDetailsByBondNo(orgId, bondNo),
   };
 
   // Call the API

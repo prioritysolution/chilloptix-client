@@ -11,6 +11,7 @@ export interface GeneralBookingFormData {
   mobile: string;
   quantity: string;
   advanceAmount: string;
+  agentId: string;
   validUpto: Date;
   transType: string;
   bankId: string;
@@ -29,6 +30,7 @@ interface GeneralBookingBody {
   mob: string;
   qunty: string;
   amount: string;
+  agent_id: string;
   valid_till: string;
   fin_id: number | null;
   cust_id: number | null;

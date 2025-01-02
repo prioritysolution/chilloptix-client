@@ -1,6 +1,6 @@
 "use client";
 
-import Floor from "@/components/master/Floor";
+import Floor from "@/components/master/floor";
 import { useFloor } from "./Hooks";
 import getCookieData from "@/utils/getCookieData";
 import { useEffect } from "react";

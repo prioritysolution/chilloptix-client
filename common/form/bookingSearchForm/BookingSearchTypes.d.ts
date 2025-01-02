@@ -9,12 +9,14 @@ export interface BookingSearchProps {
   isBookingModalOpen: boolean;
   setIsBookingModalOpen: Dispatch<SetStateAction<boolean>>;
   handleSelectData: (data: BookingSearchTableData) => void;
+  bookType?: string;
 }
 
 export interface BookingSearchFormProps {
   loading: boolean;
   form: UseFormReturn<GeneralBookingFormData, any, undefined>;
   handleSubmit: SubmitHandler<GeneralBookingFormData>;
+  bookType: string;
 }
 
 export interface BookingSearchTableProps {

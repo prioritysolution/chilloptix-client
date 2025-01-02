@@ -32,6 +32,14 @@ export const useFloor = () => {
   const formSchema = yup.object({
     floorName: yup.string().required("Floor name is required"),
     floorNo: yup.string().required("Floor no. is required"),
+    capacity: yup
+      .string()
+      .required("Capacity is required")
+      .test("is-integer", "Invalid capacity", (value) => {
+        if (!value) return false; // Required validation already handles null/empty
+        const numValue = Number(value);
+        return Number.isInteger(numValue) && numValue > 0; // Validate integer and positive
+      }),
   });
 
   // Initialize the form with react-hook-form and yup resolver
@@ -40,6 +48,7 @@ export const useFloor = () => {
     defaultValues: {
       floorName: "",
       floorNo: "",
+      capacity: "",
     },
   });
 
@@ -69,6 +78,7 @@ export const useFloor = () => {
       org_id: orgId,
       floor_name: item.floorName,
       floor_no: item.floorNo,
+      capacity: item.capacity,
     };
 
     try {
@@ -99,6 +109,7 @@ export const useFloor = () => {
       floor_id: floorId,
       floor_name: item.floorName,
       floor_no: item.floorNo,
+      capacity: item.capacity,
     };
     setUpdateFloorLoading(true);
     try {
@@ -142,11 +153,12 @@ export const useFloor = () => {
   useEffect(() => {
     if (editData && Object.keys(editData).length > 0) {
       form.reset({
-        floorName: editData.Floor_Name,
-        floorNo: editData.Floor_No,
+        floorName: editData.Floor_Name || "",
+        floorNo: editData.Floor_No || "",
+        capacity: editData.Capacity || "",
       });
     } else {
-      form.reset({ floorName: "", floorNo: "" });
+      form.reset({ floorName: "", floorNo: "", capacity: "" });
     }
   }, [editData, form.reset]);
 

@@ -11,7 +11,7 @@ export interface BondEntryFormData {
   date: Date;
   noOfPackages: string;
   netWeight: string;
-  verified: boolean;
+  verified: string;
 }
 
 interface BondData {

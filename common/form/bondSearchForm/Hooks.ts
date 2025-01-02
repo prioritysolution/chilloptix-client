@@ -17,8 +17,6 @@ export const useBondSearch = () => {
 
   const [orgId, setOrgId] = useState<number | null>(null);
 
-  const [isBondModalOpen, setIsBondModalOpen] = useState(false);
-
   useEffect(() => {
     if (typeof window !== undefined) {
       setOrgId(getCookieData<number | null>("chilloptixClientOrgId"));
@@ -88,7 +86,5 @@ export const useBondSearch = () => {
     loading,
     form,
     handleSubmit,
-    isBondModalOpen,
-    setIsBondModalOpen,
   };
 };

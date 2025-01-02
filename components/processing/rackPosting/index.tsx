@@ -6,25 +6,26 @@ import { Button } from "@nextui-org/react";
 import { FC, useState } from "react";
 import SuccessMessage from "@/common/successMessage";
 import RackPostingForm from "./RackPostingForm";
-import BondSearch from "@/common/form/bondSearchForm";
 import RackPostingTable from "./RackPostingTable";
+import BookingSearch from "@/common/form/bookingSearchForm";
 
 const RackPosting: FC<RackPostingProps> = ({
   loading,
   form,
   handleSubmit,
-  handleSelectBond,
+  handleSelectBooking,
   showSuccessMessage,
   setShowSuccessMessage,
   successMessage,
-  handleGetBondDataByBondNo,
-  getBondDetailsLoading,
+  handleGetBondListByBookingNo,
+  getBondListLoading,
   rackPostingTableData,
   handleDeleteFromTable,
   handleAddRackPosting,
   totalPack,
+  bondListData,
 }) => {
-  const [isBondModalOpen, setIsBondModalOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   return (
     <div className="w-full h-full flex justify-between p-2 lg:p-5 bg-[#fefefe] rounded-lg">
@@ -32,14 +33,15 @@ const RackPosting: FC<RackPostingProps> = ({
         <h3 className="text-2xl font-semibold ">Rack Posting</h3>
         <ScrollArea className="w-full h-full px-2 sm:px-10 2xl:px-20 ">
           <RackPostingForm
-            getBondDetailsLoading={getBondDetailsLoading}
+            getBondListLoading={getBondListLoading}
             form={form}
             handleSubmit={handleSubmit}
-            handleGetBondDataByBondNo={handleGetBondDataByBondNo}
+            handleGetBondListByBookingNo={handleGetBondListByBookingNo}
             rackPostingTableData={rackPostingTableData}
             handleAddRackPosting={handleAddRackPosting}
-            setIsBondModalOpen={setIsBondModalOpen}
+            setIsBookingModalOpen={setIsBookingModalOpen}
             totalPack={totalPack}
+            bondListData={bondListData}
           />
 
           <div className="w-[300px] sm:w-[400px] md:w-[350px] lg:w-[500px] xl:w-full mx-auto my-10 border border-primary rounded-2xl overflow-hidden">
@@ -67,10 +69,11 @@ const RackPosting: FC<RackPostingProps> = ({
           </div>
         </ScrollArea>
 
-        <BondSearch
-          isBondModalOpen={isBondModalOpen}
-          setIsBondModalOpen={setIsBondModalOpen}
-          handleSelectData={handleSelectBond}
+        <BookingSearch
+          isBookingModalOpen={isBookingModalOpen}
+          setIsBookingModalOpen={setIsBookingModalOpen}
+          handleSelectData={handleSelectBooking}
+          bookType="BOOKFORRACK"
         />
       </div>
 

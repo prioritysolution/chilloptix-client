@@ -1,6 +1,7 @@
 import { ScrollBar } from "@/components/ui/scroll-area";
 import { BondEntryPdfProps } from "@/container/processing/bondEntry/BondEntryTypes";
 import getCookieData from "@/utils/getCookieData";
+import convertToWords from "@/utils/numberToWords";
 import {
   Button,
   Divider,
@@ -29,7 +30,7 @@ const BondEntryPdf: FC<BondEntryPdfProps> = ({
   const generatePDF = useReactToPrint({
     // @ts-expect-error nodescription
     contentRef: printRef,
-    documentTitle: "General Booking Form",
+    documentTitle: "Bond Entry Form",
   });
 
   useEffect(() => {
@@ -82,14 +83,25 @@ const BondEntryPdf: FC<BondEntryPdfProps> = ({
                             </p>
                             <p className="">Mob. - {orgMobile && orgMobile}</p>
                             <p className="">
-                              Cold Storage Licence No.
-                              {Array.from({ length: 18 }).map((_, i) => (
-                                <span key={i}> &#46;</span>
-                              ))}{" "}
-                              Valid Upto
-                              {Array.from({ length: 12 }).map((_, i) => (
-                                <span key={i}> &#46;</span>
-                              ))}
+                              <span className="relative">
+                                Cold Storage Licence No.
+                                {Array.from({ length: 20 }).map((_, i) => (
+                                  <span key={i}> &#46;</span>
+                                ))}{" "}
+                                <span className="absolute left-52 bottom-[2px]">
+                                  {data?.Lic_No}
+                                </span>
+                              </span>
+                              <span className="relative">
+                                Valid Upto
+                                {Array.from({ length: 16 }).map((_, i) => (
+                                  <span key={i}> &#46;</span>
+                                ))}
+                                <span className="absolute left-24 bottom-[2px] text-nowrap">
+                                  {data.Valid_Till &&
+                                    format(data.Valid_Till, "dd-MM-yyyy")}
+                                </span>
+                              </span>
                             </p>
                             <p className="absolute -top-2 text-lg">
                               Sl. No. {data?.Bond_No}
@@ -111,7 +123,7 @@ const BondEntryPdf: FC<BondEntryPdfProps> = ({
                               <p className="relative">
                                 Received from (Name &#38; Address of the
                                 depositor)
-                                {Array.from({ length: 96 }).map((_, i) => (
+                                {Array.from({ length: 100 }).map((_, i) => (
                                   <span key={i}> &#46;</span>
                                 ))}
                                 <span className="absolute left-4 bottom-[2px]">
@@ -121,7 +133,7 @@ const BondEntryPdf: FC<BondEntryPdfProps> = ({
                               <p>
                                 <span className="relative">
                                   Vill.
-                                  {Array.from({ length: 17 }).map((_, i) => (
+                                  {Array.from({ length: 18 }).map((_, i) => (
                                     <span key={i}> &#46;</span>
                                   ))}
                                   <span className="absolute left-8 bottom-0">
@@ -130,7 +142,7 @@ const BondEntryPdf: FC<BondEntryPdfProps> = ({
                                 </span>{" "}
                                 <span className="relative">
                                   P.O.
-                                  {Array.from({ length: 23 }).map((_, i) => (
+                                  {Array.from({ length: 24 }).map((_, i) => (
                                     <span key={i}> &#46;</span>
                                   ))}
                                   <span className="absolute left-8 bottom-0">
@@ -139,7 +151,7 @@ const BondEntryPdf: FC<BondEntryPdfProps> = ({
                                 </span>{" "}
                                 <span className="relative">
                                   Dist.
-                                  {Array.from({ length: 17 }).map((_, i) => (
+                                  {Array.from({ length: 18 }).map((_, i) => (
                                     <span key={i}> &#46;</span>
                                   ))}
                                   <span className="absolute left-10 bottom-0">
@@ -148,7 +160,7 @@ const BondEntryPdf: FC<BondEntryPdfProps> = ({
                                 </span>
                               </p>
                             </div>
-                            <div className="w-[130px] h-[130px] border-2 border-black flex flex-col flex-shrink-0 flex-grow-0">
+                            <div className="w-[110px] h-[110px] border-2 border-black flex flex-col flex-shrink-0 flex-grow-0">
                               <div className="w-full pb-2 text-sm bg-black text-white text-center font-medium">
                                 <p>
                                   No. of
@@ -156,20 +168,22 @@ const BondEntryPdf: FC<BondEntryPdfProps> = ({
                                   Application
                                 </p>
                               </div>
-                              <p className="w-full h-full text-center flex items-center justify-center text-2xl">
-                                {data?.Book_No}
-                              </p>
+                              <div className="w-full h-full text-center flex flex-col items-center justify-center text-xl">
+                                <span>{data?.Bond_No}</span>
+                                <Divider className="h-[2px] bg-black w-20" />
+                                <span>{data?.Issue_Pack}</span>
+                              </div>
                             </div>
                           </div>
 
-                          <div className="w-full h-[220px] border-2 border-black rounded-lg grid grid-cols-[250px_1fr_200px_1fr]">
+                          <div className="w-full h-[150px] border-2 border-black rounded-lg grid grid-cols-[250px_1fr_200px_1fr]">
                             {/* First Child */}
                             <div className="text-center border-r-2 border-black flex flex-col">
                               <p>
                                 Class of Standard quality and/or Grade Potato
                                 condition of the goods not verified
                               </p>
-                              <p className="text-xl h-full flex items-center text-center w-full justify-center">
+                              <p className=" h-full text-sm flex items-center text-center w-full justify-center pt-1">
                                 {data?.Class}
                               </p>
                             </div>
@@ -192,9 +206,17 @@ const BondEntryPdf: FC<BondEntryPdfProps> = ({
                             </div>
                             {/* Fourth Child */}
                             <div className="text-center flex flex-col">
-                              <p>Number of Packages or Lots</p>
-                              <p className="text-xl h-full flex items-center text-center w-full justify-center">
-                                {data?.Issue_Pack}
+                              <p>Advance Amount Paid</p>
+                              <p className="text-lg h-full flex flex-col items-center text-center w-full justify-center">
+                                {data?.Adv_Amt}
+                                <span className="text-xs">
+                                  (Rupees{" "}
+                                  {data.Adv_Amt &&
+                                    convertToWords(
+                                      parseFloat(data.Adv_Amt)
+                                    )}{" "}
+                                  Only)
+                                </span>
                               </p>
                             </div>
                           </div>
@@ -220,10 +242,7 @@ const BondEntryPdf: FC<BondEntryPdfProps> = ({
                             </p>
                           </div>
 
-                          <ol
-                            className="list-decimal px-3 py-1 text-sm"
-                            type="1"
-                          >
+                          <ol className="list-decimal px-3 text-sm" type="1">
                             <li>
                               <p>
                                 Private marks of the hirer on the packages if
@@ -316,22 +335,22 @@ const BondEntryPdf: FC<BondEntryPdfProps> = ({
                             </p>
                           </div>
 
-                          <div className="w-full h-[200px] border-2 border-black grid grid-cols-3">
+                          <div className="w-full h-[250px] border-2 border-black grid grid-cols-3">
                             {/* First Child */}
                             <div className="text-center border-r-2 border-black">
-                              <p className="border-b-2 border-black h-[50px]">
+                              <p className="border-b-2 border-black h-[50px] flex items-center justify-center">
                                 Releaded Date
                               </p>
                             </div>
                             {/* Second Child with Specific Width */}
                             <div className="text-center border-r-2 border-black">
-                              <p className="border-b-2 border-black h-[50px]">
+                              <p className="border-b-2 border-black h-[50px] flex items-center justify-center">
                                 Signature of hirer
                               </p>
                             </div>
                             {/* Fourth Child */}
                             <div className="text-center">
-                              <p className="border-b-2 border-black h-[50px]">
+                              <p className="border-b-2 border-black h-[50px] flex items-center justify-center">
                                 Name and Quantity of produce due on receipt
                               </p>
                             </div>

@@ -5,6 +5,7 @@ export interface RackFormData {
   chamberId: string;
   rackName: string;
   rackNo: string;
+  capacity: string;
 }
 
 interface RackBody {
@@ -14,6 +15,7 @@ interface RackBody {
   chamber_id: string;
   rack_name: string;
   rack_no: string;
+  capacity: string;
 }
 
 export interface RackProps {
@@ -48,4 +50,5 @@ export interface RackTableData {
   Chamber_Id: string;
   Rack_Name: string;
   Rack_No: string;
+  Capacity: string;
 }

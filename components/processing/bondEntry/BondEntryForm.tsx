@@ -1,6 +1,5 @@
 "use client";
 
-import CheckboxField from "@/common/formFields/CheckboxField";
 import { DatePickerField } from "@/common/formFields/DatePickerField";
 import InputField from "@/common/formFields/InputField";
 import TextareaField from "@/common/formFields/TextareaField";
@@ -116,11 +115,10 @@ const BondEntryForm: FC<BondEntryFormProps> = ({
               type="number"
             />
 
-            <CheckboxField
+            <TextareaField
               control={form.control}
               label="Verified"
               name="verified"
-              className=""
             />
             <div className="lg:col-span-2 xl:col-span-3 flex items-center justify-end pt-5">
               <Button

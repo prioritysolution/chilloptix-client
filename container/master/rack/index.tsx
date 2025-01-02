@@ -40,8 +40,8 @@ const RackContainer = () => {
     if (token && orgId && floorId) {
       getChamberUnderFloorApiCall(orgId, floorId);
     }
-    form.setValue("chamberId", "");
-  }, [token, orgId, floorId]);
+    if (!editData) form.setValue("chamberId", "");
+  }, [token, orgId, floorId, editData]);
 
   return (
     <Rack

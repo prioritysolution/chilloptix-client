@@ -24,12 +24,12 @@ export interface BondSearchTableProps {
 
 export interface BondSearchTableData {
   Id: number;
-  Bond_No: number;
   Issue_Date: string;
+  Bond_No: number;
+  Issue_Qnty: string;
+  Issue_Pack: number;
   Cust_Name: string;
   Relation_Name: string;
   Address: string;
   Mobile: string;
-  Issue_Qnty: string;
-  Issue_Pack: number;
 }

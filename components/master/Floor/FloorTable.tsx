@@ -54,6 +54,7 @@ const FloorTable: FC<FloorTableProps> = ({ handleEditData }) => {
         <TableColumn>Serial No.</TableColumn>
         <TableColumn align="center">Floor No.</TableColumn>
         <TableColumn align="center">Floor Name</TableColumn>
+        <TableColumn align="center">Capacity</TableColumn>
         <TableColumn align="center">Actions</TableColumn>
       </TableHeader>
       <TableBody emptyContent={"No data found."}>
@@ -62,6 +63,7 @@ const FloorTable: FC<FloorTableProps> = ({ handleEditData }) => {
             <TableCell>{index + 1}</TableCell>
             <TableCell>{data.Floor_No}</TableCell>
             <TableCell>{data.Floor_Name}</TableCell>
+            <TableCell>{data.Capacity}</TableCell>
             <TableCell align="center" className=" flex justify-center">
               <Button
                 className="flex text-center items-center gap-3"

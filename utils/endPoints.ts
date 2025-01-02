@@ -26,25 +26,48 @@ export const endPoints = {
   getAgent: (orgId: number) => `${createApi}Org/Master/GetAgent/${orgId}`,
   addAgent: `${createApi}Org/Master/AddAgent`,
   updateAgent: `${createApi}Org/Master/UpdateAgent`,
+  getLastRentDate: (orgId: number) =>
+    `${createApi}Org/Master/GetLastRentDate/${orgId}`,
   addRent: `${createApi}Org/Master/AddRent`,
   getBankLedger: `${createApi}Org/Master/GetBankLedger`,
   getBankAccount: (orgId: number) =>
     `${createApi}Org/Master/GetBankAccount/${orgId}`,
   addBankAccount: `${createApi}Org/Master/AddBankAccount`,
+  getLicenseRenewal: (orgId: number) =>
+    `${createApi}Org/Master/GetRenewalList/${orgId}`,
+  addLicenseRenewal: `${createApi}Org/Master/RenewalLicence`,
+  updateLicenseRenewal: `${createApi}Org/Master/UpdateRenewal`,
+  getPosition: (orgId: number) => `${createApi}Org/Master/GetPosition/${orgId}`,
+  addPosition: `${createApi}Org/Master/AddPosition`,
+  updatePosition: `${createApi}Org/Master/UpdatePosition`,
   addGeneralBooking: `${createApi}Org/Processing/GeneralBooking`,
   getBankCustomer: (orgId: number, keyword: string) =>
     `${createApi}Org/Processing/GetCustomer/${orgId}/${keyword}`,
-  getBookingData: (orgId: number, bookId: number) =>
-    `${createApi}Org/Processing/GetBookingData/${orgId}/${bookId}`,
   getBookingSearchData: (orgId: number, type: string, keyword: string) =>
     `${createApi}Org/Processing/SearchBooking/${orgId}/${type}/${keyword}`,
+  getBookingSearchForRackData: (orgId: number, type: string, keyword: string) =>
+    `${createApi}Org/Processing/SearchBookForRack/${orgId}/${type}/${keyword}`,
   getBookingDataByBookingNo: (orgId: number, bookNo: string) =>
     `${createApi}Org/Processing/GetBookingDetails/${orgId}/${bookNo}`,
+  getRackBondListByBookingNo: (orgId: number, bookingNo: string) =>
+    `${createApi}Org/Processing/GetBondBooking/${orgId}/${bookingNo}`,
+  getRackDetailsByBondNo: (orgId: number, bondNo: string) =>
+    `${createApi}Org/Processing/GetBondDetails/${orgId}/${bondNo}`,
   getBondSearchData: (orgId: number, type: string, keyword: string) =>
     `${createApi}Org/Processing/SearchBond/${orgId}/${type}/${keyword}`,
-  getBondDataByBondNo: (orgId: number, bondNo: string) =>
-    `${createApi}Org/Processing/GetBondDetails/${orgId}/${bondNo}`,
   addBondEntry: `${createApi}Org/Processing/BondEntry`,
   addRackPosting: `${createApi}Org/Processing/RackPosting`,
+  getRentDetailsByBondNo: `${createApi}Org/Processing/GetRentData`,
+  getCalculateRent: `${createApi}Org/Processing/CalculateRent`,
+  addCollectRent: `${createApi}Org/Processing/CollectRent`,
+  getVoucherLedgerData: `${createApi}Org/Voucher/GetLedgerList`,
+  addVoucher: `${createApi}Org/Voucher/PostVoucher`,
+  getBankBalance: `${createApi}Org/Voucher/GetBankBalance`,
+  addBankDeposit: `${createApi}Org/Voucher/PostBankDeposit`,
+  addBankWithdrawn: `${createApi}Org/Voucher/PostBankWithdrw`,
+  addBankTransfer: `${createApi}Org/Voucher/PostBankTransfer`,
+  addBookingRegister: `${createApi}Org/GeneralReport/BookingRegister`,
+  addBondRegister: `${createApi}Org/GeneralReport/BondRegister`,
+  addCollectionRegister: `${createApi}Org/GeneralReport/CollectionRegister`,
   getLogout: `${createApi}Admin/ProcessLogOut`,
 };

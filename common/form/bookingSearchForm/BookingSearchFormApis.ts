@@ -5,10 +5,14 @@ import { endPoints } from "@/utils/endPoints";
 export const addBookingSearchAPI = async (
   orgId: number,
   type: string,
-  keyword: string
+  keyword: string,
+  bookType: string
 ): Promise<ApiResponse> => {
   let data = {
-    url: endPoints.getBookingSearchData(orgId, type, keyword),
+    url:
+      bookType === "BOOK"
+        ? endPoints.getBookingSearchData(orgId, type, keyword)
+        : endPoints.getBookingSearchForRackData(orgId, type, keyword),
   };
 
   // Call the API

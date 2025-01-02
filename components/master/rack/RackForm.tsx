@@ -100,6 +100,13 @@ const RackForm: FC<RackFormProps> = ({
                 label="Rack No"
                 type="number"
               />
+
+              <InputField
+                control={form.control}
+                name="capacity"
+                label="Capacity"
+                type="number"
+              />
             </ModalBody>
             <ModalFooter>
               <Button

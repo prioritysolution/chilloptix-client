@@ -5,6 +5,7 @@ import { useGeneralBooking } from "./Hooks";
 import getCookieData from "@/utils/getCookieData";
 import { useBankAccount } from "@/container/master/bankAccount/Hooks";
 import { useEffect } from "react";
+import { useAgent } from "@/container/master/agent/Hooks";
 
 const GeneralBookingContainer = () => {
   const token = getCookieData<string | null>("chilloptixClientToken");
@@ -27,11 +28,14 @@ const GeneralBookingContainer = () => {
     handleShowPdf,
   } = useGeneralBooking();
 
+  const { getAgentApiCall } = useAgent();
+
   const { getBankAccountApiCall } = useBankAccount();
 
   useEffect(() => {
     if (token && orgId) {
       getBankAccountApiCall(orgId);
+      getAgentApiCall(orgId);
     }
   }, [token, orgId]);
 

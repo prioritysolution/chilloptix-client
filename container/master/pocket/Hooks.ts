@@ -38,6 +38,14 @@ export const usePocket = () => {
     rackId: yup.string().required("Rack is required"),
     pocketName: yup.string().required("Pocket name is required"),
     pocketNo: yup.string().required("Pocket no. is required"),
+    capacity: yup
+      .string()
+      .required("Capacity is required")
+      .test("is-integer", "Invalid capacity", (value) => {
+        if (!value) return false; // Required validation already handles null/empty
+        const numValue = Number(value);
+        return Number.isInteger(numValue) && numValue > 0; // Validate integer and positive
+      }),
   });
 
   // Initialize the form with react-hook-form and yup resolver
@@ -47,6 +55,7 @@ export const usePocket = () => {
       rackId: "",
       pocketName: "",
       pocketNo: "",
+      capacity: "",
     },
   });
 
@@ -77,6 +86,7 @@ export const usePocket = () => {
       rack_id: item.rackId,
       pocket_name: item.pocketName,
       pocket_no: item.pocketNo,
+      capacity: item.capacity,
     };
 
     try {
@@ -108,6 +118,7 @@ export const usePocket = () => {
       rack_id: item.rackId,
       pocket_name: item.pocketName,
       pocket_no: item.pocketNo,
+      capacity: item.capacity,
     };
     setUpdatePocketLoading(true);
     try {
@@ -171,12 +182,13 @@ export const usePocket = () => {
   useEffect(() => {
     if (editData && Object.keys(editData).length > 0) {
       form.reset({
-        rackId: editData.Rack_Id.toString(),
-        pocketName: editData.Pocket_Name,
-        pocketNo: editData.Pocket_No,
+        rackId: editData.Rack_Id.toString() || "",
+        pocketName: editData.Pocket_Name || "",
+        pocketNo: editData.Pocket_No || "",
+        capacity: editData.Capacity || "",
       });
     } else {
-      form.reset({ rackId: "", pocketName: "", pocketNo: "" });
+      form.reset({ rackId: "", pocketName: "", pocketNo: "", capacity: "" });
     }
   }, [editData, form.reset]);
 

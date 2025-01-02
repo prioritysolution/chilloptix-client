@@ -30,17 +30,3 @@ export const getBankCustomerAPI = async (
 
   return res;
 };
-
-export const getBookingAPI = async (
-  orgId: number,
-  bookId: number
-): Promise<ApiResponse> => {
-  let data = {
-    url: endPoints.getBookingData(orgId, bookId),
-  };
-
-  // Call the API
-  const res = await doGetApiCall(data);
-
-  return res;
-};

@@ -14,6 +14,11 @@ import DropdownField from "@/common/formFields/DropdownField";
 import { BankAccountTableData } from "@/container/master/bankAccount/BankAccountTypes";
 import { useSelector } from "react-redux";
 import SuccessMessage from "@/common/successMessage";
+import { AgentTableData } from "@/container/master/agent/AgentTypes";
+
+interface AgentState {
+  agentData: AgentTableData[];
+}
 
 interface BankAccountState {
   bankAccountData: BankAccountTableData[];
@@ -21,6 +26,7 @@ interface BankAccountState {
 
 interface RootState {
   bankAccount: BankAccountState;
+  agent: AgentState;
 }
 
 const GeneralBooking: FC<GeneralBookingProps> = ({
@@ -39,6 +45,10 @@ const GeneralBooking: FC<GeneralBookingProps> = ({
   successMessage,
   handleShowPdf,
 }) => {
+  const agentData: AgentTableData[] = useSelector(
+    (state: RootState) => state?.agent?.agentData
+  );
+
   const bankAccountData: BankAccountTableData[] = useSelector(
     (state: RootState) => state?.bankAccount?.bankAccountData
   );
@@ -123,7 +133,7 @@ const GeneralBooking: FC<GeneralBookingProps> = ({
                 <InputField
                   control={form.control}
                   name="quantity"
-                  label="Quantity (KG)"
+                  label="Quantity (Packet)"
                   type="number"
                 />
 
@@ -132,6 +142,14 @@ const GeneralBooking: FC<GeneralBookingProps> = ({
                   name="advanceAmount"
                   label="Advance Amount"
                   type="number"
+                />
+
+                <DropdownField
+                  control={form.control}
+                  name="agentId"
+                  options={agentData}
+                  label="Agent"
+                  optionLabelKey="Agent_Name"
                 />
 
                 <DatePickerField
@@ -189,11 +207,13 @@ const GeneralBooking: FC<GeneralBookingProps> = ({
         </ScrollArea>
       </div>
 
-      <GeneralBookingPdf
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        bookingData={bookingData}
-      />
+      {bookingData && (
+        <GeneralBookingPdf
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          bookingData={bookingData}
+        />
+      )}
 
       <SuccessMessage
         showSuccessMessage={showSuccessMessage}

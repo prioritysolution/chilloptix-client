@@ -82,6 +82,13 @@ const PocketForm: FC<PocketFormProps> = ({
                 label="Pocket No"
                 type="number"
               />
+
+              <InputField
+                control={form.control}
+                name="capacity"
+                label="Capacity"
+                type="number"
+              />
             </ModalBody>
             <ModalFooter>
               <Button

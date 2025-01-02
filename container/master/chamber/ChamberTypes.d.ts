@@ -4,6 +4,7 @@ export interface ChamberFormData {
   floorId: string;
   chamberName: string;
   chamberNo: string;
+  capacity: string;
 }
 
 interface ChamberBody {
@@ -12,6 +13,7 @@ interface ChamberBody {
   floor_id: string;
   chamber_name: string;
   chamber_no: string;
+  capacity: string;
 }
 
 export interface ChamberProps {
@@ -45,4 +47,5 @@ export interface ChamberTableData {
   Floor_Id: string;
   Chamber_Name: string;
   Chamber_No: string;
+  Capacity: string;
 }

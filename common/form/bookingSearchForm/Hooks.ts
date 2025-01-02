@@ -17,7 +17,7 @@ export const useBookingSearch = () => {
 
   const [orgId, setOrgId] = useState<number | null>(null);
 
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [bookType, setBookType] = useState("");
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -48,7 +48,7 @@ export const useBookingSearch = () => {
 
   // Handle form submission
   const handleSubmit: SubmitHandler<BookingSearchFormData> = (values) => {
-    if (orgId) {
+    if (orgId && bookType) {
       addBookingSearchApiCall(values, orgId);
     } else {
       toast.error("Somthing went wrong");
@@ -66,7 +66,8 @@ export const useBookingSearch = () => {
       const res: ApiResponse = await addBookingSearchAPI(
         orgId,
         item.bookingType,
-        item.searchKey
+        item.searchKey,
+        bookType
       );
 
       if (res.status === 200) {
@@ -88,7 +89,6 @@ export const useBookingSearch = () => {
     loading,
     form,
     handleSubmit,
-    isBookingModalOpen,
-    setIsBookingModalOpen,
+    setBookType,
   };
 };

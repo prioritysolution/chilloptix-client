@@ -4,6 +4,7 @@ export interface PocketFormData {
   rackId: string;
   pocketName: string;
   pocketNo: string;
+  capacity: string;
 }
 
 interface PocketBody {
@@ -12,6 +13,7 @@ interface PocketBody {
   rack_id: string;
   pocket_name: string;
   pocket_no: string;
+  capacity: string;
 }
 
 export interface PocketProps {
@@ -45,4 +47,5 @@ export interface PocketTableData {
   Rack_Id: string;
   Pocket_Name: string;
   Pocket_No: string;
+  Capacity: string;
 }

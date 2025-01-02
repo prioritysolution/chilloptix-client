@@ -49,12 +49,7 @@ const Login: FC<LoginProps> = ({ loading, form, handleSubmit }) => {
               className="w-full flex flex-col gap-4 sm:px-5"
               autoComplete="off"
             >
-              <InputField
-                control={form.control}
-                name="email"
-                label="Email"
-                type="email"
-              />
+              <InputField control={form.control} name="email" label="Email" />
 
               <InputField
                 control={form.control}

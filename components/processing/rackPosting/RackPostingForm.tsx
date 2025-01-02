@@ -8,6 +8,7 @@ import { Form } from "@/components/ui/form";
 import { ChamberTableData } from "@/container/master/chamber/ChamberTypes";
 import { FloorTableData } from "@/container/master/floor/FloorTypes";
 import { PocketTableData } from "@/container/master/pocket/PocketTypes";
+import { PositionTableData } from "@/container/master/position/PositionTypes";
 import { RackTableData } from "@/container/master/rack/RackTypes";
 import { RackPostingFormProps } from "@/container/processing/rackPosting/RackPostingTypes";
 import { Button } from "@nextui-org/react";
@@ -31,21 +32,27 @@ interface PocketState {
   pocketData: PocketTableData[];
 }
 
+interface PositionState {
+  positionData: PositionTableData[];
+}
+
 interface RootState {
   floor: FloorState;
   chamber: ChamberState;
   rack: RackState;
   pocket: PocketState;
+  position: PositionState;
 }
 
 const RackPostingForm: FC<RackPostingFormProps> = ({
   form,
   handleSubmit,
-  setIsBondModalOpen,
-  handleGetBondDataByBondNo,
-  getBondDetailsLoading,
+  setIsBookingModalOpen,
+  handleGetBondListByBookingNo,
+  getBondListLoading,
   rackPostingTableData,
-  totalPack,
+  // totalPack,
+  bondListData,
 }) => {
   const floorData: FloorTableData[] = useSelector(
     (state: RootState) => state?.floor?.floorData
@@ -63,6 +70,10 @@ const RackPostingForm: FC<RackPostingFormProps> = ({
     (state: RootState) => state?.pocket?.pocketData
   );
 
+  const positionData: PositionTableData[] = useSelector(
+    (state: RootState) => state?.position?.positionData
+  );
+
   return (
     <Form {...form}>
       <form
@@ -70,33 +81,42 @@ const RackPostingForm: FC<RackPostingFormProps> = ({
         className="w-full flex flex-col gap-10 justify-between"
         autoComplete="off"
       >
-        <div className="w-full flex flex-col lg:flex-row lg:items-end lg:justify-center  gap-5 border border-primary rounded-lg p-5 ">
+        <div className="w-full border border-primary rounded-lg p-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-3 items-end ">
+          <DatePickerField
+            control={form.control}
+            label="Posting Date"
+            name="date"
+            startYear={2000}
+            endYear={2050}
+            disabled={rackPostingTableData.length > 0}
+          />
+
           <InputField
             control={form.control}
-            label="Bond No."
-            name="bondNo"
-            className="w-full lg:w-[380px]"
+            label="Booking No."
+            name="bookingNo"
+            className=""
             endContent={
               <IoSearch
                 className="text-2xl cursor-pointer"
-                onClick={() => setIsBondModalOpen(true)}
+                onClick={() => setIsBookingModalOpen(true)}
               />
             }
           />
 
-          <Button
-            onPress={handleGetBondDataByBondNo}
-            color="primary"
-            size="lg"
-            radius="sm"
-            className="w-32 self-end"
-            isLoading={getBondDetailsLoading}
-            isDisabled={
-              getBondDetailsLoading || rackPostingTableData.length > 0
-            }
-          >
-            Next
-          </Button>
+          <div className="w-full flex items-end lg:col-span-2 xl:col-span-1 justify-end xl:justify-start">
+            <Button
+              onPress={handleGetBondListByBookingNo}
+              color="primary"
+              size="lg"
+              radius="sm"
+              className="w-32 self-end"
+              isLoading={getBondListLoading}
+              isDisabled={getBondListLoading || rackPostingTableData.length > 0}
+            >
+              Next
+            </Button>
+          </div>
         </div>
 
         <div className="w-full h-full flex flex-col border border-primary rounded-lg p-5 gap-5">
@@ -105,6 +125,14 @@ const RackPostingForm: FC<RackPostingFormProps> = ({
           </h3>
 
           <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-3 ">
+            <DropdownField
+              control={form.control}
+              name="bondId"
+              options={bondListData}
+              label="Bond"
+              optionLabelKey="Bond_No"
+            />
+
             <InputField
               control={form.control}
               label="Issue Date"
@@ -147,15 +175,6 @@ const RackPostingForm: FC<RackPostingFormProps> = ({
               disabled
             />
 
-            <DatePickerField
-              control={form.control}
-              label="Posting Date"
-              name="date"
-              startYear={2000}
-              endYear={2050}
-              disabled={rackPostingTableData.length > 0}
-            />
-
             <DropdownField
               control={form.control}
               name="floorId"
@@ -188,6 +207,14 @@ const RackPostingForm: FC<RackPostingFormProps> = ({
               optionLabelKey="Pocket_Name"
             />
 
+            <DropdownField
+              control={form.control}
+              name="positionId"
+              options={positionData}
+              label="Position"
+              optionLabelKey="Position_Name"
+            />
+
             <InputField
               control={form.control}
               label="Pack"
@@ -202,10 +229,6 @@ const RackPostingForm: FC<RackPostingFormProps> = ({
                 size="lg"
                 radius="sm"
                 className="w-full lg:w-1/3 xl:w-1/5 self-end"
-                isDisabled={
-                  !!form.getValues("bondPack") &&
-                  totalPack === Number(form.getValues("bondPack"))
-                }
               >
                 Add To Table
               </Button>

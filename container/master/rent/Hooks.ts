@@ -7,7 +7,7 @@ import { ApiResponse } from "@/container/ApiTypes";
 import getCookieData from "@/utils/getCookieData";
 import { RentFormData } from "./RentTypes";
 import { decimalRegex } from "@/utils/validationRegex";
-import { addRentAPI } from "./RentApis";
+import { addRentAPI, getLastRentDateAPI } from "./RentApis";
 import { format } from "date-fns";
 
 export const useRent = () => {
@@ -15,6 +15,8 @@ export const useRent = () => {
 
   const [orgId, setOrgId] = useState<number | null>(null);
   const [startDate, setStartDate] = useState<string | null>(null);
+
+  const [fromDateDisable, setFromDateDisable] = useState(false);
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -179,6 +181,29 @@ export const useRent = () => {
     }
   };
 
+  const getLastRentDateApiCall = async (orgId: number) => {
+    setLoading(true);
+
+    try {
+      const res: ApiResponse = await getLastRentDateAPI(orgId);
+
+      if (res.status === 200) {
+        setFromDateDisable(true);
+        form.setValue("effectFrom", new Date(res.data.details[0].Valid_Till));
+      } else {
+        form.resetField("effectFrom", undefined);
+        setFromDateDisable(false);
+        toast.error(res.data.message);
+      }
+    } catch (err) {
+      form.resetField("effectFrom", undefined);
+      setFromDateDisable(false);
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     form.resetField("effectTo");
   }, [effectFrom]);
@@ -187,6 +212,8 @@ export const useRent = () => {
     loading,
     form,
     handleSubmit,
+    getLastRentDateApiCall,
     startDate,
+    fromDateDisable,
   };
 };

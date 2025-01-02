@@ -87,12 +87,7 @@ const AgentForm: FC<AgentFormProps> = ({
                 type="number"
               />
 
-              <InputField
-                control={form.control}
-                name="email"
-                label="Email"
-                type="email"
-              />
+              <InputField control={form.control} name="email" label="Email" />
 
               <InputField
                 control={form.control}
